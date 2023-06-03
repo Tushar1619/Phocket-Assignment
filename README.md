@@ -13,14 +13,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 
 Test 1
-{
+
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import UsersPage from './users';
-
 jest.mock('axios');
-
 describe('UsersPage', () => {
   it('should fetch and display users', async () => {
     const mockUsers = [
@@ -43,9 +41,8 @@ describe('UsersPage', () => {
     // Verify that the API was called with the correct URL
     expect(axios.get).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users');
   });
-
 });
-}
+
 run the following command :
 npm test
 
