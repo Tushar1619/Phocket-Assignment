@@ -13,7 +13,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 
 Test 1
-
+{
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
@@ -44,9 +44,8 @@ describe('UsersPage', () => {
     expect(axios.get).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users');
   });
 
-  // Add more tests as needed
 });
-
+}
 run the following command :
 npm test
 
