@@ -2,37 +2,53 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+start with this command:
+npm install
 
-```bash
+run the development server:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Test 1
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import axios from 'axios';
+import UsersPage from './users';
 
-## Learn More
+jest.mock('axios');
 
-To learn more about Next.js, take a look at the following resources:
+describe('UsersPage', () => {
+  it('should fetch and display users', async () => {
+    const mockUsers = [
+      { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
+      { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com' },
+    ];
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    axios.get.mockResolvedValue({ data: mockUsers });
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    render(<UsersPage />);
 
-## Deploy on Vercel
+    expect(screen.getByText('Users')).toBeInTheDocument();
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    // Wait for the API call to complete and the users to be displayed
+    await waitFor(() => {
+      expect(screen.getByText('John Doe - john.doe@example.com')).toBeInTheDocument();
+      expect(screen.getByText('Jane Smith - jane.smith@example.com')).toBeInTheDocument();
+    });
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    // Verify that the API was called with the correct URL
+    expect(axios.get).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users');
+  });
+
+  // Add more tests as needed
+});
+
+run the following command :
+npm test
+
+Make sure you have set up a testing framework like Jest and have installed the necessary dependencies (e.g., @testing-library/react, axios, etc.) before running the test.
+
